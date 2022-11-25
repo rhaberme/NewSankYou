@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="../dist/d3-sankey-circular.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="../data/nodes_and_links.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100i" rel="stylesheet">
+
+  <title>UWC</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+
+    rect {
+      shape-rendering: crispEdges;
+    }
+
+    text {
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    .link {
+      fill: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Results</h1>
+  <div id="chart"></div>
+  <button onclick="get_month(0)">Total</button>
+  <br>
+  <button onclick="get_month(1)">Jan</button>
+  <button onclick="get_month(2)">Feb</button>
+  <button onclick="get_month(3)">Mar</button>
+  <button onclick="get_month(4)">Apr</button>
+  <button onclick="get_month(5)">May</button>
+  <button onclick="get_month(6)">Jun</button>
+  <button onclick="get_month(7)">Jul</button>
+  <button onclick="get_month(8)">Aug</button>
+  <button onclick="get_month(9)">Sep</button>
+  <button onclick="get_month(10)">Okt</button>
+  <button onclick="get_month(11)">Nov</button>
+  <button onclick="get_month(12)">Dez</button>
+
+  <script src="visualize.js"></script>
+
+</body>
+</html>
