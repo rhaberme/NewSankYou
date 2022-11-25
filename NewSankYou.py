@@ -154,9 +154,8 @@ if __name__ == '__main__':
     nodes_csv = 'data/Nodes.csv'
     dbfile = 'data/results.db'
 
-    for i in range(10, 40):
-        result_num = i
+    result_num = 49
 
-        create_data_and_show_html(filepath="js_files/index.html", dbfile=dbfile, result_num=result_num,
+    create_data_and_show_html(filepath="js_files/index.html", dbfile=dbfile, result_num=result_num,
                                   nodes_csv_file=nodes_csv)
 
