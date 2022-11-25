@@ -39,7 +39,7 @@ def get_tables(db_file, result_num_):
 def create_flows_dict(data_df):
     month_key_list = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
                       'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-    Flows = {}
+    flows = {}
 
     for ind in data_df.index:
         if re.search('var_\d\d\d\d', ind):
@@ -47,17 +47,17 @@ def create_flows_dict(data_df):
             flow[1] = '\d\d\d\d'
             label = "_".join([str(item) for item in flow[2:]])
 
-            Flows[label] = {'source': flow[-2],
+            flows[label] = {'source': flow[-2],
                             'target': flow[-1],
                             'search pattern': "_".join([str(item) for item in flow])
                             }
 
             if flow[-1] == 'big' or flow[-1] == 's':
-                Flows[label]['source'] = flow[-3]
-                Flows[label]['target'] = flow[-2]
+                flows[label]['source'] = flow[-3]
+                flows[label]['target'] = flow[-2]
 
             if len(flow) == 3:
-                del Flows[label]
+                del flows[label]
                 continue
 
     # read in the data for each flow and sum up al months and create lists of nodes
@@ -65,12 +65,12 @@ def create_flows_dict(data_df):
 
     mistakes = []
 
-    for flow in Flows:
+    for flow in flows:
         Values = np.array([])
 
         # read in values for each flow
         for ind in data_df.index:
-            if re.search(Flows[flow]['search pattern'] + '$', ind):
+            if re.search(flows[flow]['search pattern'] + '$', ind):
                 Values = np.append(Values, data_df.loc[ind])
 
         for i in range(len(Values)):
@@ -78,12 +78,12 @@ def create_flows_dict(data_df):
                 Values[i] = 0
 
         if len(Values) == 12:
-            Flows[flow]['data'] = dict(zip(month_key_list, Values))
-            Flows[flow]['data']['TOT'] = np.sum(Values)
+            flows[flow]['data'] = dict(zip(month_key_list, Values))
+            flows[flow]['data']['TOT'] = np.sum(Values)
         else:
             mistakes.append({flow: Values})
 
-    return Flows
+    return flows
 
 #create sanky data (for sum values first)
 def sanky_data(month, flows):
