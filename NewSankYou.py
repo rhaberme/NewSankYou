@@ -11,37 +11,30 @@ import json
 import os
 
 
-def choose_table(db_file, result_num_):
+def get_tables(db_file, result_num_):
     con = sqlite3.connect(db_file)
     cur = con.cursor()
 
     # reading all table names
     table_list = [a for a in cur.execute("SELECT name FROM sqlite_master WHERE type = 'table'")]
     table_list = [t[0] for t in table_list]
-
-    df_list = read_into_dfs(con, table_list)
-    con.close()
-    if result_num_ < 1:
-        table = table_list[1]
-    elif result_num_ > len(table_list) - 1:
-        table = table_list[-1]
-    else:
-        table = table_list[result_num_]
-
-    return df_list[table]
-
-
-def read_into_dfs(con, table_list):
     df_list = []
-    for t in table_list: 
+    for t in table_list:
         df_ = pd.read_sql_query('SELECT * FROM {}'.format(t), con)
         df_list.append(df_)
-    
-    df = reduce(lambda x, y: pd.merge(x, y, on = 'Variable'), df_list)
-    table_list.insert(0, "Variable")
-    df.columns = table_list
-    df = df.set_index('Variable')
-    return df
+
+    df_all_tables = reduce(lambda df1, df2: pd.merge(df1, df2, on='Variable', suffixes=('', '_rename')), df_list)
+    df_all_tables.columns = ["Variable"] + table_list
+    df_all_tables = df_all_tables.set_index('Variable')
+
+    con.close()
+    if result_num_ < 0:
+        return df_all_tables.iloc[:, 0]
+    elif result_num_ > len(table_list) - 1:
+        return df_all_tables.iloc[:, -1]
+    else:
+        return df_all_tables.iloc[:, result_num_]
+
 
 def create_flows_dict(data_df):
     month_key_list = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
@@ -122,7 +115,7 @@ def sanky_data(month, flows):
 # function to create the js data for the visualization in javascript and open the html file
 # month_key is what is called month in other functions, js_files: 'JAN' for January
 def create_data_and_show_html(filepath, dbfile, result_num,  nodes_csv_file):
-    data_df = choose_table(dbfile, result_num)
+    data_df = get_tables(dbfile, result_num)
     flows = create_flows_dict(data_df)
     nodes_df = pd.read_csv(nodes_csv_file, sep=';')
     nodes_df = nodes_df.set_index('Node')
@@ -154,7 +147,7 @@ if __name__ == '__main__':
     nodes_csv = 'data/Nodes.csv'
     dbfile = 'data/results.db'
 
-    result_num = 49
+    result_num = 50
 
     create_data_and_show_html(filepath="js_files/index.html", dbfile=dbfile, result_num=result_num,
                                   nodes_csv_file=nodes_csv)

@@ -105,7 +105,6 @@ function draw_sankey(data) {
       .attr("font-size", 10)
       .selectAll("g");
 
-  console.log(data)
   let sankeyData = sankey(data);
   let sankeyNodes = sankeyData.nodes;
   let sankeyLinks = sankeyData.links;
