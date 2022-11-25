@@ -114,10 +114,10 @@ def sanky_data(month, flows):
 
 # function to create the js data for the visualization in javascript and open the html file
 # month_key is what is called month in other functions, js_files: 'JAN' for January
-def create_data_and_show_html(filepath, dbfile, result_num,  nodes_csv_file):
-    data_df = get_tables(dbfile, result_num)
+def create_data_and_show_html(html_filepath, data_js_filepath, db_filepath, nodes_csv_filepath, result_number):
+    data_df = get_tables(db_filepath, result_number)
     flows = create_flows_dict(data_df)
-    nodes_df = pd.read_csv(nodes_csv_file, sep=';')
+    nodes_df = pd.read_csv(nodes_csv_filepath, sep=';')
     nodes_df = nodes_df.set_index('Node')
 
     json_str_dict = {}
@@ -135,11 +135,11 @@ def create_data_and_show_html(filepath, dbfile, result_num,  nodes_csv_file):
         json_str_dict[month_key] = {"nodes": nodes_list, "links": link_list}
 
 
-    with open('data/nodes_and_links.js', 'w') as f:
+    with open(data_js_filepath, 'w') as f:
         output_str = "let input_data_object = " + json.dumps(json_str_dict)
         f.write(output_str)
 
-    bash_command = "open " + filepath
+    bash_command = "open " + html_filepath
     os.system(bash_command)
 
 
@@ -149,6 +149,6 @@ if __name__ == '__main__':
 
     result_num = 50
 
-    create_data_and_show_html(filepath="js_files/index.html", dbfile=dbfile, result_num=result_num,
-                                  nodes_csv_file=nodes_csv)
+    create_data_and_show_html(html_filepath="js_files/index.html", data_js_filepath='data/nodes_and_links.js',
+                              db_filepath=dbfile, nodes_csv_filepath=nodes_csv, result_number=result_num,)
 
