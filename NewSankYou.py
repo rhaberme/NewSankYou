@@ -37,8 +37,7 @@ def get_tables(db_file, result_num_):
 
 
 def create_flows_dict(data_df):
-    month_key_list = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
-                      'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+    month_key_list = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
     flows = {}
 
     for ind in data_df.index:
