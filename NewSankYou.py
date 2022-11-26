@@ -8,8 +8,8 @@ from functools import reduce
 import re
 import numpy as np
 import json
-import os
-
+import subprocess
+import platform
 
 def get_tables(db_file, result_num_):
     con = sqlite3.connect(db_file)
@@ -138,8 +138,15 @@ def create_data_and_show_html(html_filepath, data_js_filepath, db_filepath, node
         output_str = "let input_data_object = " + json.dumps(json_str_dict)
         f.write(output_str)
 
-    bash_command = "open " + html_filepath
-    os.system(bash_command)
+    os_system = platform.system()
+
+    if os_system == 'win32':
+        bash_command = "start " + html_filepath
+    else:
+        bash_command = "open " + html_filepath
+
+    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
 
 
 if __name__ == '__main__':
