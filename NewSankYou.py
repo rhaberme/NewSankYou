@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-
+import os
 import sqlite3
 import pandas as pd
 from functools import reduce
@@ -10,6 +9,7 @@ import numpy as np
 import json
 import subprocess
 import platform
+import webbrowser
 
 def get_tables(db_file, result_num_):
     con = sqlite3.connect(db_file)
@@ -138,16 +138,7 @@ def create_data_and_show_html(html_filepath, data_js_filepath, db_filepath, node
         output_str = "let input_data_object = " + json.dumps(json_str_dict)
         f.write(output_str)
 
-    os_system = platform.system()
-
-    if os_system == 'win32':
-        bash_command = "start " + html_filepath
-    else:
-        bash_command = "open " + html_filepath
-
-    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
-
+    webbrowser.open_new("file:///" + os.getcwd() + html_filepath)
 
 if __name__ == '__main__':
     nodes_csv = 'data/Nodes.csv'
