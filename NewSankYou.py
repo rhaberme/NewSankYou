@@ -138,7 +138,10 @@ def create_data_and_show_html(html_filepath, data_js_filepath, db_filepath, node
         output_str = "let input_data_object = " + json.dumps(json_str_dict)
         f.write(output_str)
 
-    webbrowser.open_new("file:///" + os.getcwd() + html_filepath)
+    if os.path.isabs(html_filepath):
+        webbrowser.open_new("file:///" + html_filepath)
+    else:
+        webbrowser.open_new("file:///" + os.getcwd() + "/" + html_filepath)
 
 if __name__ == '__main__':
     nodes_csv = 'data/Nodes.csv'
