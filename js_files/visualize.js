@@ -96,7 +96,7 @@ function draw_sankey(data) {
   var linkG = g.append("g")
       .attr("class", "links")
       .attr("fill", "none")
-      .attr("stroke-opacity", 0.2)
+      .attr("stroke-opacity", 0.5)
       .selectAll("path");
 
   var nodeG = g.append("g")
@@ -183,7 +183,7 @@ function draw_sankey(data) {
   var link = linkG.data(sankeyLinks)
       .enter()
       .append("g")
-
+  console.log(link)
   link.append("path")
       .attr("class", "sankey-link")
       .attr("d", function (link) {
@@ -194,7 +194,8 @@ function draw_sankey(data) {
       })
       .style("opacity", 0.7)
       .style("stroke", function (link, i) {
-        return link.circular ? "red" : "black"
+        return link_color[link.source.name +"_"+ link.target.name]
+          // link.circular ? "green" : "yellow"
       })
 
   link.append("title")
