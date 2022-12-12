@@ -93,6 +93,9 @@ function draw_sankey(data) {
   var g = svg.append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
+  // todo nodes moveable
+  // https://bl.ocks.org/d3noob/5028304
+
   var linkG = g.append("g")
       .attr("class", "links")
       .attr("fill", "none")
