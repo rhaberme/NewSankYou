@@ -94,7 +94,9 @@ function draw_sankey(data) {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
   // todo nodes moveable
-  // https://bl.ocks.org/d3noob/5028304
+  // 1. https://bl.ocks.org/d3noob/3337957c360d55c245f6057ab0866c05
+  // 2. https://bl.ocks.org/d3noob/5028304
+
 
   var linkG = g.append("g")
       .attr("class", "links")
