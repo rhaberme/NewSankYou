@@ -1,5 +1,5 @@
 var margin = { top: 30, right: 30, bottom: 30, left: 30};
-var width = 1100; var height = 500;
+var width = 1300; var height = 500;
 
 first_run = true
 function get_month(month_nr) {
@@ -169,6 +169,9 @@ function draw_sankey(data) {
       .attr("y", function (d) {
         return d.y0 - 12;
       })
+      // todo fix x and y position
+      // https://stackoverflow.com/questions/35394461/d3-sankey-assign-fixed-x-y-position
+
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
       .text(function (d) {
@@ -183,7 +186,6 @@ function draw_sankey(data) {
   var link = linkG.data(sankeyLinks)
       .enter()
       .append("g")
-  console.log(link)
   link.append("path")
       .attr("class", "sankey-link")
       .attr("d", function (link) {
@@ -194,8 +196,9 @@ function draw_sankey(data) {
       })
       .style("opacity", 0.7)
       .style("stroke", function (link, i) {
-        return link_color[link.source.name +"_"+ link.target.name]
-          // link.circular ? "green" : "yellow"
+        return link.circular ? "green" : "yellow"
+          //link_color[link.source.name +"_"+ link.target.name] // todo
+
       })
 
   link.append("title")
